@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+
+<link rel="stylesheet" type="text/css" href="../static/CSS/mazeCSS.css">
+<!-- <script type = "text/javascript" src="../static/JS/maze_Generation.js"></script> -->
+<script type="text/javascript"
+        src="../static/JS/maze_Generation.js"
+        type="module"
+    ></script>
+
+<body>
+
+    <div id='bank'><!--mazes goes here--></div>
+
+    <input type="number" id="latitude" name="latitude" min="2" max="30" value="10">
+    <input type="number" id="longitude" name="longitude" min="2" max="30" value="10">
+
+    <script>
+    
+    function formulate(){
+        cols = document.getElementById('latitude').value;
+        rows = document.getElementById('longitude').value;
+        makeMaze('bank',rows,cols);
+    }
+    
+
+    const makeMaze=function(id,width,height){
+        let newMaze = new maze_Generation(width,height);
+        newMaze.displayMaze(id);
+    };
+
+    // makeMaze('bank',4,4);
+    
+    </script>
+
+    <button onclick="formulate();">Make Maze!</button>
+
+</body>
+</html>
