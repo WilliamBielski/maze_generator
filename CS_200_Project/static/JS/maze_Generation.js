@@ -15,7 +15,10 @@ class maze_Algorithm {
         //array to keep track of past moves
         this.movesArray = [0];
 
+        //condition that keeps the while loop running
         this.movable = true;
+
+        //makes sure that only one exit is chosen.
         this.endSet = false;
 
         while(this.movable){
@@ -204,7 +207,7 @@ class maze_Generation{
         this.rows = 2 * this.height + 1;
 
         //initalize maze matrix
-        this.maze = this.initalizeMatrix([]);
+        this.maze = this.makeMatrix([]);
 
         //get to work later for random
         this.entPos = oddRand(1,this.cols-1);
@@ -228,7 +231,7 @@ class maze_Generation{
     }
 
     //standard 2d array (thx w3 schools)
-    initalizeMatrix(value) {
+    makeMatrix(value) {
         return new Array(this.rows).fill().map(() => new Array(this.cols).fill(value));
     }
 
@@ -250,7 +253,9 @@ class maze_Generation{
         }
 
         const container = document.createElement("div");
+
         container.id = "generatedMaze";
+
         //w3 is unmatched
         this.maze.forEach((row) => {
             let rowDiv = document.createElement("div");
@@ -280,7 +285,6 @@ function trigger(){
 
     return true;
 }
-
 //randome number gen
 function rand(min, max) {
     return min + Math.floor(Math.random() * ((max - min) + 1));
