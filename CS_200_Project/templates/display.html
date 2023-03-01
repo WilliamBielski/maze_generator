@@ -10,30 +10,56 @@
 
 <body>
 
-    <div id='bank'><!--mazes goes here--></div>
+    <div class="maze-bank" id='bank'><!--mazes goes here--></div>
 
-    <input type="number" id="latitude" name="latitude" min="2" max="30" value="10">
-    <input type="number" id="longitude" name="longitude" min="2" max="30" value="10">
+    
 
     <script>
-    
-    function formulate(){
-        cols = document.getElementById('latitude').value;
-        rows = document.getElementById('longitude').value;
-        makeMaze('bank',rows,cols);
-    }
-    
 
-    const makeMaze=function(id,width,height){
-        let newMaze = new maze_Generation(width,height);
-        newMaze.displayMaze(id);
-    };
+        let newMaze = new maze_Generation(10,10);
+        let cols = 10;
+        let rows = 10;
+    
+        function assembleMaze(){
+            cols = document.getElementById('latitude').value;
+            rows = document.getElementById('longitude').value;
+            makeMaze('bank',rows,cols);
+            document.getElementById("upButton").style.visibility="visible";
+            document.getElementById("downButton").style.visibility="visible";
+            document.getElementById("leftButton").style.visibility="visible";
+            document.getElementById("rightButton").style.visibility="visible";
+        }
+
+        function makeMove(id, direction){
+            newMaze.movePlayer(direction);
+            newMaze.displayMaze(id);
+            console.log("make move runs")
+        }
+
+        const makeMaze=function(id,width,height){
+            newMaze = new maze_Generation(width,height);
+            newMaze.displayMaze(id);
+            
+        };
+
+        
 
     // makeMaze('bank',4,4);
     
     </script>
 
-    <button onclick="formulate();">Make Maze!</button>
+<div class="input-div">
+    <input type="number" id="latitude" name="latitude" min="2" max="30" value="10">
+    <input type="number" id="longitude" name="longitude" min="2" max="30" value="10">
+    <button onclick="assembleMaze();">Make Maze!</button>
+</div>
+
+<div class="button-div">
+    <button id="upButton" style="visibility:hidden" onclick="makeMove('bank','up');">Move Up!</button>
+    <button id="downButton" style="visibility:hidden" onclick="makeMove('bank','down');">Move Down!</button>
+    <button id="leftButton" style="visibility:hidden" onclick="makeMove('bank','left');">Move Left!</button>
+    <button id="rightButton" style="visibility:hidden" onclick="makeMove('bank','right');">Move Right!</button>
+</div>
 
 </body>
 </html>
