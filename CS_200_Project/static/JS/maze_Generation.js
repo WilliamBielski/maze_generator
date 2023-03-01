@@ -22,16 +22,16 @@ class maze_Algorithm {
         this.endSet = false;
 
         while(this.movable){
-            console.log("loop resets - current possition "+ this.currR +", "+ this.currC)
+            //console.log("loop resets - current possition "+ this.currR +", "+ this.currC)
             //for when movement is possible
             if(this.canMove(this.currR, this.currC)){
-                console.log("movement triggers")
+                //console.log("movement triggers")
                 switch(rand(1,4)){
                     //1 is LEFT
                     case 1:
-                        console.log("tries going left")
+                        //console.log("tries going left")
                         if(this.canMoveLeft(this.currR, this.currC)){
-                            console.log("left triggered")
+                            // console.log("left triggered")
                             this.modArr[this.currR-1][this.currC] = ["path"];
                             this.modArr[this.currR-2][this.currC] = ["path"];
                             this.currR = this.currR-2;
@@ -41,9 +41,9 @@ class maze_Algorithm {
     
                     //2 is RIGHT
                     case 2:
-                        console.log("tries going right")
+                        //console.log("tries going right")
                         if(this.canMoveRight(this.currR, this.currC)){
-                            console.log("right triggered")
+                            //console.log("right triggered")
                             this.modArr[this.currR+1][this.currC] = ["path"];
                             this.modArr[this.currR+2][this.currC] = ["path"];
                             this.currR = this.currR+2; 
@@ -53,9 +53,9 @@ class maze_Algorithm {
     
                     //3 is UP
                     case 3:
-                        console.log("tries going up")
+                        // console.log("tries going up")
                         if(this.canMoveUp(this.currR, this.currC)){
-                            console.log("up triggered")
+                            //console.log("up triggered")
                             this.modArr[this.currR][this.currC-1] = ["path"];
                             this.modArr[this.currR][this.currC-2] = ["path"];
                             this.currC = this.currC-2; 
@@ -65,9 +65,9 @@ class maze_Algorithm {
     
                     //4 is DOWN
                     case 4:
-                        console.log("tries going down")
+                        //console.log("tries going down")
                         if(this.canMoveDown(this.currR, this.currC)){
-                            console.log("down triggers")
+                            //console.log("down triggers")
                             this.modArr[this.currR][this.currC+1] = ["path"];
                             this.modArr[this.currR][this.currC+2] = ["path"];
                             this.currC = this.currC+2; 
@@ -84,25 +84,25 @@ class maze_Algorithm {
                 //1 went Left, 2 went Right, 3 went Up, 4 went down.
                 //reverses course till a new route is possible or it kills the loop
                 this.moveIdx = this.movesArray.length-1;
-                console.log("reverse/end calls");
-                console.log(this.movesArray[this.moveIdx]);
+                //console.log("reverse/end calls");
+                //console.log(this.movesArray[this.moveIdx]);
                 if(this.movesArray[this.moveIdx] == 1){
-                    this.currR = this.currR+2
-                    this.movesArray.pop()
+                    this.currR = this.currR+2;
+                    this.movesArray.pop();
                     
                 }else if(this.movesArray[this.moveIdx] == 2){
-                    this.currR = this.currR-2
-                    this.movesArray.pop()
+                    this.currR = this.currR-2;
+                    this.movesArray.pop();
 
                 }else if(this.movesArray[this.moveIdx] == 3){
                     this.currC = this.currC+2
-                    this.movesArray.pop()
+                    this.movesArray.pop();
                     
                 }else if(this.movesArray[this.moveIdx] == 4){
-                    this.currC = this.currC-2
-                    this.movesArray.pop()
+                    this.currC = this.currC-2;
+                    this.movesArray.pop();
                 }else{
-                    console.log("while ends")
+                    //console.log("while ends")
                     this.movable = false;
                 }
             }
@@ -112,64 +112,64 @@ class maze_Algorithm {
 
     canMoveLeft(xRow,yCell){
         if(xRow > 1 && this.modArr[xRow-2][yCell] == 'wall'){
-            console.log("Able to move left");
+            //console.log("Able to move left");
             return true;
         }else{
-            console.log("cant move left");
-            console.log("xRow > 1:");
-            console.log(xRow > 1);
-            if(xRow > 1){
-                console.log("this.modArr[xRow-2][yCell] == 'wall':");
-                console.log(this.modArr[xRow-2][yCell] == 'wall');
-            }
+            // console.log("cant move left");
+            // console.log("xRow > 1:");
+            // console.log(xRow > 1);
+            // if(xRow > 1){
+            //     console.log("this.modArr[xRow-2][yCell] == 'wall':");
+            //     console.log(this.modArr[xRow-2][yCell] == 'wall');
+            // }
             return false;
         }
     }
 
     canMoveRight(xRow,yCell){
         if(xRow < this.horzEdge-1 && this.modArr[xRow+2][yCell] == 'wall'){
-            console.log("Able to move right");
+            //console.log("Able to move right");
             return true;
         }else{
-            console.log("cant move right");
-            console.log("xRow < this.horzEdge-1:");
-            console.log(xRow < this.horzEdge-1);
-            if(xRow < this.horzEdge-1){
-                console.log("this.modArr[xRow+2][yCell] == 'wall':");
-                console.log(this.modArr[xRow+2][yCell] == 'wall');
-            }
+            // console.log("cant move right");
+            // console.log("xRow < this.horzEdge-1:");
+            // console.log(xRow < this.horzEdge-1);
+            // if(xRow < this.horzEdge-1){
+            //     console.log("this.modArr[xRow+2][yCell] == 'wall':");
+            //     console.log(this.modArr[xRow+2][yCell] == 'wall');
+            // }
             return false;
         }
     }
 
     canMoveUp(xRow,yCell){
         if(yCell > 1 && this.modArr[xRow][yCell-2] == 'wall'){
-            console.log("Able to move up");
+            // console.log("Able to move up");
             return true;
         }else{
-            console.log("cant move up");
-            console.log("yCell > 1:");
-            console.log(yCell > 1);
-            if(yCell > 1){
-                console.log("this.modArr[xRow][yCell-2] == 'wall':");
-                console.log(this.modArr[xRow][yCell-2] == 'wall');
-            }
+            // console.log("cant move up");
+            // console.log("yCell > 1:");
+            // console.log(yCell > 1);
+            // if(yCell > 1){
+            //     console.log("this.modArr[xRow][yCell-2] == 'wall':");
+            //     console.log(this.modArr[xRow][yCell-2] == 'wall');
+            // }
             return false;
         }
     }
 
     canMoveDown(xRow,yCell){
         if(yCell < this.vertEdge-1 && this.modArr[xRow][yCell+2] == 'wall'){
-            console.log("Able to move down");
+            // console.log("Able to move down");
             return true;
         }else{
-            console.log("cant move down");
-            console.log("yCell < this.vertEdge-1:");
-            console.log(yCell < this.vertEdge-1);
-            if(yCell < this.vertEdge-1){
-                console.log("this.modArr[xRow][yCell+2] == 'wall':");
-                console.log(this.modArr[xRow][yCell+2] == 'wall');
-            }
+            // console.log("cant move down");
+            // console.log("yCell < this.vertEdge-1:");
+            // console.log(yCell < this.vertEdge-1);
+            // if(yCell < this.vertEdge-1){
+            //     console.log("this.modArr[xRow][yCell+2] == 'wall':");
+            //     console.log(this.modArr[xRow][yCell+2] == 'wall');
+            // }
             return false;
         }
     }
@@ -212,6 +212,10 @@ class maze_Generation{
         //get to work later for random
         this.entPos = oddRand(1,this.cols-1);
 
+        this.playerPosX = 0;
+        this.playerPosY = this.entPos;
+
+
         this.maze.forEach((row, r) => {
             row.forEach((cell, c) => {
                 if(r == 0 && c == this.entPos){
@@ -227,7 +231,7 @@ class maze_Generation{
         this.maze = new maze_Algorithm(this.maze, this.rows, this.cols, this.entPos);
         console.log("maze complete");
         console.log(this.maze);
-
+        return true;
     }
 
     //standard 2d array (thx w3 schools)
@@ -276,6 +280,107 @@ class maze_Generation{
 
         console.log("display runs");
         return true;
+    }
+
+    movePlayer(direction) {
+
+        this.vertEdge = this.cols-1;
+        this.horzEdge = this.rows-1;
+
+        // console.log("xPos = "+this.playerPosX+" yPos = "+this.playerPosY);
+        if(this.playerPosX == 0){
+            this.playerPosX = this.playerPosX+1;
+            this.maze[this.playerPosX][this.playerPosY] = ["walked"];
+        }
+
+        // console.log("xPos = "+this.playerPosX+" yPos = "+this.playerPosY);
+        this.direction = direction;
+
+        if(this.direction == 'up' && this.playerPosY > 1){
+            // console.log("goes up");
+            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
+            if(this.maze[this.playerPosX+1][this.playerPosY-2] == 'exit'){
+                this.maze[this.playerPosX][this.playerPosY-1] = ["walked"];
+                this.maze[this.playerPosX][this.playerPosY-2] = ["walked"];
+                this.playerPosY = this.playerPosY-2;
+                alert("Maze Clear!!!");
+            }else if(this.maze[this.playerPosX][this.playerPosY-1] == 'path'){
+                this.maze[this.playerPosX][this.playerPosY-1] = ["walked"];
+                this.maze[this.playerPosX][this.playerPosY-2] = ["walked"];
+                this.playerPosY = this.playerPosY-2;
+                // console.log(this.maze);
+            }else if(this.maze[this.playerPosX][this.playerPosY-1] == 'walked'){
+                this.maze[this.playerPosX][this.playerPosY] = ["path"];
+                this.maze[this.playerPosX][this.playerPosY-1] = ["path"];
+                this.playerPosY = this.playerPosY-2;
+            }else{
+                alert("you can't move that way");
+                return false;
+            }
+        }else if(this.direction == 'down' && this.playerPosY < this.vertEdge-1){
+            // console.log("goes down");
+            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
+            if(this.maze[this.playerPosX+1][this.playerPosY+2] == 'exit'){
+                this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
+                this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
+                this.playerPosY = this.playerPosY+2;
+                alert("Maze Clear!!!");
+            }else if(this.maze[this.playerPosX][this.playerPosY+1] == 'path'){
+                this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
+                this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
+                this.playerPosY = this.playerPosY+2;
+                // console.log(this.maze);
+            }else if(this.maze[this.playerPosX][this.playerPosY+1] == 'walked'){
+                this.maze[this.playerPosX][this.playerPosY] = ["path"];
+                this.maze[this.playerPosX][this.playerPosY+1] = ["path"];
+                this.playerPosY = this.playerPosY+2;    
+            }else{
+                alert("you can't move that way");
+                return false;
+            }
+        }else if(this.direction == 'left' && this.playerPosX > 1){
+            // console.log("goes left");
+            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
+            if(this.maze[this.playerPosX-1][this.playerPosY] == 'path'){
+                this.maze[this.playerPosX-1][this.playerPosY] = ["walked"];
+                this.maze[this.playerPosX-2][this.playerPosY] = ["walked"];
+                this.playerPosX = this.playerPosX-2;
+                // console.log(this.maze);
+            }else if(this.maze[this.playerPosX-1][this.playerPosY] == 'walked'){
+                this.maze[this.playerPosX][this.playerPosY] = ["path"];
+                this.maze[this.playerPosX-1][this.playerPosY] = ["path"];
+                this.playerPosX = this.playerPosX-2;    
+            }else{
+                alert("you can't move that way");
+                return false;
+            }
+        }else if(this.direction == 'right' && this.playerPosX < this.horzEdge-1){
+            // console.log("goes right");
+            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
+            if(this.maze[this.playerPosX][this.playerPosY+3] == 'exit'){
+                this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
+                this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
+                this.playerPosX = this.playerPosX+2;
+                alert("Maze Clear!!!");
+            }else if(this.maze[this.playerPosX+1][this.playerPosY] == 'path'){
+                this.maze[this.playerPosX+1][this.playerPosY] = ["walked"];
+                this.maze[this.playerPosX+2][this.playerPosY] = ["walked"];
+                this.playerPosX = this.playerPosX+2;
+                // console.log(this.maze);
+            }else if(this.maze[this.playerPosX+1][this.playerPosY] == 'walked'){
+                this.maze[this.playerPosX][this.playerPosY] = ["path"];
+                this.maze[this.playerPosX+1][this.playerPosY] = ["path"];
+                this.playerPosX = this.playerPosX+2;     
+            }else{
+                alert("you can't move that way");
+                return false;
+            }
+        }else{
+            alert("you can't move that way");
+            return false;
+        }
+
+    return true;
     }
 }
 
