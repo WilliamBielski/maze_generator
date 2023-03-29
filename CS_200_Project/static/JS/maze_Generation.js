@@ -77,10 +77,7 @@ class maze_Algorithm {
                 }
             //for when movement isn't possible
             }else{
-                if(!(this.endSet) && this.currR == this.horzEdge-1){
-                    this.modArr[this.currR+1][this.currC] = ["exit"];
-                    this.endSet = true;
-                }
+                this.canExit(numRows, numCels);
                 //1 went Left, 2 went Right, 3 went Up, 4 went down.
                 //reverses course till a new route is possible or it kills the loop
                 this.moveIdx = this.movesArray.length-1;
@@ -192,6 +189,27 @@ class maze_Algorithm {
             return false;
         }
     }
+
+    canExit(x, y){
+        this.xMax = (x - 1)/2;
+        this.yMax = (y - 1)/2;
+        // console.log("can exit check")
+        // console.log("array length: "+ this.movesArray.length)
+        // console.log("possible moves: "+ this.xMax * this.yMax)
+        //between 1/2 and 1/3 seems to be the sweet spot
+        if(!(this.endSet) && ((this.xMax * this.yMax)/2.5 <= this.movesArray.length)){
+            if(this.currR == this.horzEdge-1){
+                this.modArr[this.currR+1][this.currC] = ["exit"];
+                this.endSet = true;
+            }else if(this.currR == 1){
+                this.modArr[this.currR-1][this.currC] = ["exit"];
+                this.endSet = true;
+            }
+            return true
+        }else{
+            return false;
+        }
+    }
 }
 
 class maze_Generation{
@@ -202,7 +220,7 @@ class maze_Generation{
         this.width = width;
         this.height = height;
 
-        //battleship style will need roughly double the space
+        //I will need roughly double the space here
         this.cols = 2 * this.width + 1;
         this.rows = 2 * this.height + 1;
 
@@ -215,7 +233,8 @@ class maze_Generation{
         this.playerPosX = 0;
         this.playerPosY = this.entPos;
 
-
+        //for each loops based on w3 schools example
+        //source: https://www.w3schools.com/jsref/jsref_foreach.asp
         this.maze.forEach((row, r) => {
             row.forEach((cell, c) => {
                 if(r == 0 && c == this.entPos){
@@ -234,7 +253,8 @@ class maze_Generation{
         return true;
     }
 
-    //standard 2d array (thx w3 schools)
+    //standard 2d array from W3 docs
+    //sources: https://www.w3docs.com/snippets/javascript/how-to-create-a-two-dimensional-array-in-javascript.html
     makeMatrix(value) {
         return new Array(this.rows).fill().map(() => new Array(this.cols).fill(value));
     }
@@ -243,9 +263,9 @@ class maze_Generation{
         return new Array(this.height).fill().map(() => new Array(this.width).fill(value));
     }
 
-    displayMaze(id) {
-        //didn't think I would actually use parent child hookups like this but here we are.
-        this.bankDiv = document.getElementById(id);
+    displayMaze(name) {
+        //didn't think I would actually use parent child hookups from CS 120 like this but here we are.
+        this.bankDiv = document.getElementById(name);
 
         if(!this.bankDiv) {
             document.write("name dosen't or you deleted the div");
@@ -260,7 +280,8 @@ class maze_Generation{
 
         container.id = "generatedMaze";
 
-        //w3 is unmatched
+        //for each loop based on w3 schools example
+        //source: https://www.w3schools.com/jsref/jsref_foreach.asp
         this.maze.forEach((row) => {
             let rowDiv = document.createElement("div");
 
@@ -268,6 +289,8 @@ class maze_Generation{
                 let cellDiv = document.createElement("div");
 
                 if(cell) {
+                    //class assignment base on answer on stack overflow
+                    //source: https://stackoverflow.com/questions/1115310/how-can-i-add-a-class-to-a-dom-element-in-javascript
                     cellDiv.className = cell.toString();
                 }
                 rowDiv.appendChild(cellDiv);
@@ -390,7 +413,8 @@ function trigger(){
 
     return true;
 }
-//randome number gen
+//random number gen (inspired by w3schools example)
+//source: https://www.w3schools.com/js/js_random.asp
 function rand(min, max) {
     return min + Math.floor(Math.random() * ((max - min) + 1));
 }
