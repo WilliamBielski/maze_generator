@@ -23,28 +23,34 @@
 .walked{
     width: 15px;
     height: 15px;
-    background-color: orange;
+    background-color: lightskyblue;
 }
 
 .entrance{
     width: 15px;
     height: 15px;
-    background-color: red;
+    background-color: blue;
 }
 
 .exit{
     width: 15px;
     height: 15px;
-    background-color: blue;
+    background-color: red;
 }
 
 /* template CSS */
+.maze-div{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    margin-top: 0.5%;
+}
+
 .maze-bank{
     display: flex;
     justify-content: center;
-    margin-top: 0.5%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .starter-text-div{
@@ -58,6 +64,12 @@
     font-size: 32px;
 }
 
+.start-end-span{
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    height: 20px;
+}
+
 .input-div{
     margin-top: 1%;
     margin-bottom: 1%;
@@ -66,11 +78,14 @@
 }
 
 .playButton{
+    display: none;
     margin-left: auto;
     margin-right: auto;
+    font-size: larger;
 }
 
-.dir-Button-stuff{
+.dir-button-div{
+    display: none;
     margin-left: auto;
     margin-right: auto;
 }

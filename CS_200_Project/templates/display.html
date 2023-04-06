@@ -22,8 +22,24 @@
                 cols = document.getElementById('latitude').value;
                 rows = document.getElementById('longitude').value;
                 
+                document.getElementById("maze-div").style.display="flex";
+
                 makeMaze('bank',rows,cols);
 
+                document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*15)+"px";
+                console.log("ext xPos = " + newMaze.getExtXPos()+ " ext yPos = "+ newMaze.getExtYPos());
+                if(newMaze.getExtXPos() == 0){
+                    alert("left")
+                    document.getElementById("end-span-right").style.visibility="hidden";
+                    document.getElementById("end-span-left").style.display="block";
+                    document.getElementById("end-span-left").style.marginTop= (newMaze.getExtYPos()*15)+"px";
+                }else{
+                    alert("right")
+                    document.getElementById("end-span-left").style.display="none";
+                    document.getElementById("end-span-right").style.visibility="visible";
+                    document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*15)+"px";
+                }
+                
                 document.getElementById("starter-text-div").style.display="none";
                 document.getElementById("playButton").style.display="block";
                 document.getElementById("dir-Div").style.display="none";
@@ -79,8 +95,26 @@
         <div class="starter-text-div" id="starter-text-div">
             <span class="starter-text">Click 'Make Maze' to begin!</span>
         </div>
+
         <!--the maze goes in the div below-->
-        <div class="maze-bank" id='bank'></div>
+        <div class="maze-div" id="maze-div" style="display: none;">
+                <span class="start-end-span" id="start-span">
+                    Start
+                </span>
+
+                <span class="start-end-span" id="end-span-left">
+                    End
+                </span>
+
+            <div class="maze-bank" id='bank'></div>
+
+            <span class="start-end-span" id="end-span-right">
+                End
+            </span>
+            
+        </div>
+
+        
 
         <div class="input-div" id="input-div">
             <label>Width: </label>
@@ -92,11 +126,10 @@
 
         <button class="playButton" 
                 id="playButton" 
-                style="display: none" 
                 onclick="allowPlay('bank');">PLAY MAZE!
         </button>
 
-        <div class="dir-Button-stuff" style="display: none" id="dir-Div">
+        <div class="dir-button-div" id="dir-Div">
             <label id="directionLabel">
                 Use the arrow keys or the buttons below to navigate the maze!
             </label>

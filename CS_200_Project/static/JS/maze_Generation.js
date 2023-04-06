@@ -21,6 +21,9 @@ class maze_Algorithm {
         //makes sure that only one exit is chosen.
         this.endSet = false;
 
+        this.extXPos = 0;
+        this.extYPos = 0;
+
         while(this.movable){
             //console.log("loop resets - current possition "+ this.currR +", "+ this.currC)
             //for when movement is possible
@@ -104,7 +107,7 @@ class maze_Algorithm {
                 }
             }
         }
-        return this.modArr;
+        return true;
     }
 
     canMoveLeft(xRow,yCell){
@@ -196,19 +199,35 @@ class maze_Algorithm {
         // console.log("can exit check")
         // console.log("array length: "+ this.movesArray.length)
         // console.log("possible moves: "+ this.xMax * this.yMax)
-        //between 1/2 and 1/3 seems to be the sweet spot
         if(!(this.endSet) && ((this.xMax * this.yMax)/2.5 <= this.movesArray.length)){
             if(this.currR == this.horzEdge-1){
                 this.modArr[this.currR+1][this.currC] = ["exit"];
                 this.endSet = true;
+
+                this.extXPos = this.currR+1;
+                this.extYPos = this.currC;
+
+
             }else if(this.currR == 1){
                 this.modArr[this.currR-1][this.currC] = ["exit"];
                 this.endSet = true;
+
+                this.extXPos = this.currR-1;
+                this.extYPos = this.currC;
+
             }
             return true
         }else{
             return false;
         }
+    }
+
+    getExtXPosA(){
+        return this.extXPos;
+    }
+
+    getExtYPosA(){
+        return this.extYPos;
     }
 }
 
@@ -229,6 +248,7 @@ class maze_Generation{
 
         //genertes the entry position based on a random odd number
         this.entPos = oddRand(1,this.cols-1);
+        this.exitX = 0;
 
         //variables keep track of x & y positions in the maze
         this.playerPosX = 0;
@@ -251,7 +271,8 @@ class maze_Generation{
         });
 
         // apply algorithm to break up maze
-        this.maze = new maze_Algorithm(this.maze, this.rows, this.cols, this.entPos);
+        this.reference = new maze_Algorithm(this.maze, this.rows, this.cols, this.entPos);
+        this.maze = this.reference.modArr;
         console.log("maze complete");
         console.log(this.maze);
         return true;
@@ -334,65 +355,61 @@ class maze_Generation{
         the directional input
         */
         if(this.direction == 'up' && this.playerPosY > 1){
-            // console.log("goes up");
-            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
             if(this.maze[this.playerPosX+1][this.playerPosY-2] == 'exit' 
                 || this.maze[this.playerPosX-1][this.playerPosY-2] == 'exit'){
                 this.maze[this.playerPosX][this.playerPosY-1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY-2] = ["walked"];
                 this.playerPosY = this.playerPosY-2;
-                //alert("Maze Clear!!!");
                 this.cleared = true;
+
             }else if(this.maze[this.playerPosX][this.playerPosY-1] == 'path'){
                 this.maze[this.playerPosX][this.playerPosY-1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY-2] = ["walked"];
                 this.playerPosY = this.playerPosY-2;
-                // console.log(this.maze);
+
             }else if(this.maze[this.playerPosX][this.playerPosY-1] == 'walked'){
                 this.maze[this.playerPosX][this.playerPosY] = ["path"];
                 this.maze[this.playerPosX][this.playerPosY-1] = ["path"];
                 this.playerPosY = this.playerPosY-2;
+
             }else{
                 alert("you can't move that way");
                 return false;
             }
         }else if(this.direction == 'down' && this.playerPosY < this.vertEdge-1){
-            // console.log("goes down");
-            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
             if(this.maze[this.playerPosX+1][this.playerPosY+2] == 'exit' 
                 || this.maze[this.playerPosX-1][this.playerPosY+2] == 'exit'){
                 this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
                 this.playerPosY = this.playerPosY+2;
-                //alert("Maze Clear!!!");
                 this.cleared = true;
+
             }else if(this.maze[this.playerPosX][this.playerPosY+1] == 'path'){
                 this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
                 this.playerPosY = this.playerPosY+2;
-                // console.log(this.maze);
+
             }else if(this.maze[this.playerPosX][this.playerPosY+1] == 'walked'){
                 this.maze[this.playerPosX][this.playerPosY] = ["path"];
                 this.maze[this.playerPosX][this.playerPosY+1] = ["path"];
                 this.playerPosY = this.playerPosY+2;    
+
             }else{
                 alert("you can't move that way");
                 return false;
             }
         }else if(this.direction == 'left' && this.playerPosX > 1){
-            // console.log("goes left");
-            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
             if(this.maze[this.playerPosX-3][this.playerPosY] == 'exit'){
                 this.maze[this.playerPosX-1][this.playerPosY] = ["walked"];
                 this.maze[this.playerPosX-2][this.playerPosY] = ["walked"];
                 this.playerPosX = this.playerPosX-2;
-                //alert("Maze Clear!!!");
                 this.cleared = true;
+
             }else if(this.maze[this.playerPosX-1][this.playerPosY] == 'path'){
                 this.maze[this.playerPosX-1][this.playerPosY] = ["walked"];
                 this.maze[this.playerPosX-2][this.playerPosY] = ["walked"];
                 this.playerPosX = this.playerPosX-2;
-                // console.log(this.maze);
+
             }else if(this.maze[this.playerPosX-1][this.playerPosY] == 'walked'){
                 this.maze[this.playerPosX][this.playerPosY] = ["path"];
                 this.maze[this.playerPosX-1][this.playerPosY] = ["path"];
@@ -402,23 +419,22 @@ class maze_Generation{
                 return false;
             }
         }else if(this.direction == 'right' && this.playerPosX < this.horzEdge-1){
-            // console.log("goes right");
-            // console.log("xPos = " + this.playerPosX + " yPos = "+ this.playerPosY);
             if(this.maze[this.playerPosX][this.playerPosY+3] == 'exit'){
                 this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
                 this.playerPosX = this.playerPosX+2;
-                //alert("Maze Clear!!!");
                 this.cleared = true;
+
             }else if(this.maze[this.playerPosX+1][this.playerPosY] == 'path'){
                 this.maze[this.playerPosX+1][this.playerPosY] = ["walked"];
                 this.maze[this.playerPosX+2][this.playerPosY] = ["walked"];
                 this.playerPosX = this.playerPosX+2;
-                // console.log(this.maze);
+
             }else if(this.maze[this.playerPosX+1][this.playerPosY] == 'walked'){
                 this.maze[this.playerPosX][this.playerPosY] = ["path"];
                 this.maze[this.playerPosX+1][this.playerPosY] = ["path"];
-                this.playerPosX = this.playerPosX+2;     
+                this.playerPosX = this.playerPosX+2;    
+                
             }else{
                 alert("you can't move that way");
                 return false;
@@ -431,9 +447,22 @@ class maze_Generation{
     return true;
     }
 
-    //getter for cleared
+    //getter for cleared boolean
     getCleared(){
         return this.cleared;
+    }
+
+    //getter for starting position
+    getStartPos(){
+        return this.entPos;
+    }
+
+    getExtXPos(){
+        return this.reference.getExtXPosA();
+    }
+
+    getExtYPos(){
+        return this.reference.getExtYPosA();
     }
 }
 
