@@ -4,6 +4,8 @@
     justify-content: center;
 }
 
+/* maze based CSS */
+
 #generatedMaze{
     display: flex;
     flex-wrap: wrap;
@@ -36,11 +38,46 @@
     background-color: blue;
 }
 
+/* template CSS */
+.maze-bank{
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.starter-text-div{
+    margin-top: 1%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.starter-text{
+    font-weight: bold;
+    font-size: 32px;
+}
+
 .input-div{
     margin-top: 1%;
     margin-bottom: 1%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.playButton{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dir-Button-stuff{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#directionLabel{
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .button-div{
@@ -50,20 +87,10 @@
     margin-left: auto;
     margin-right: auto;
 }
-.dir-Button-stuff{
-    margin-left: auto;
-    margin-right: auto;
+
+.dir-button{
+    margin-left: 0.5%;
+    margin-right: 0.5%;
 }
 
-.maze-bank{
-    display: flex;
-    justify-content: center;
-    margin-top: 1%;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-#playButton{
-    margin-left: auto;
-    margin-right: auto;
-}
