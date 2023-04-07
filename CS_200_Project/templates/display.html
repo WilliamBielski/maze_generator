@@ -15,6 +15,7 @@
             let newMaze = new maze_Generation(10,10);
             let cols = 10;
             let rows = 10;
+            let missMoves = 0;
         
             //takes the values of the height/width inputs and creates a maze based on them
             //additionally this makes sure the "playButton" is now visible to the players
@@ -29,13 +30,15 @@
                 document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*15)+"px";
                 console.log("ext xPos = " + newMaze.getExtXPos()+ " ext yPos = "+ newMaze.getExtYPos());
                 if(newMaze.getExtXPos() == 0){
-                    alert("left")
+                    //alert("left")
                     document.getElementById("end-span-right").style.visibility="hidden";
+                    document.getElementById("end-span-buffer").style.display="block";
                     document.getElementById("end-span-left").style.display="block";
                     document.getElementById("end-span-left").style.marginTop= (newMaze.getExtYPos()*15)+"px";
                 }else{
-                    alert("right")
+                    //alert("right")
                     document.getElementById("end-span-left").style.display="none";
+                    document.getElementById("end-span-buffer").style.display="none";
                     document.getElementById("end-span-right").style.visibility="visible";
                     document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*15)+"px";
                 }
@@ -53,7 +56,14 @@
 
             //general function to move the "player in the direction passed"
             function makeMove(id, direction){
-                newMaze.movePlayer(direction);
+                if(!newMaze.movePlayer(direction)){
+                    missMoves += 1;
+                }else{
+                    missMoves = 0;
+                }
+                if(missMoves >= 3){
+                    alert("You can't move that direction (Click Enter)");
+                }
                 newMaze.displayMaze(id);
                 console.log("make-move runs")
                 if(newMaze.getCleared()){
@@ -110,6 +120,9 @@
 
             <span class="start-end-span" id="end-span-right">
                 End
+            </span>
+            <!--this is just a spacing buffer-->
+            <span class="start-end-span" id="end-span-buffer" style="display: none; visibility: hidden;">
             </span>
             
         </div>

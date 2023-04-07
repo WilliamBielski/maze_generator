@@ -373,7 +373,7 @@ class maze_Generation{
                 this.playerPosY = this.playerPosY-2;
 
             }else{
-                alert("you can't move that way");
+                //alert("You can't move that direction (Click Enter)");
                 return false;
             }
         }else if(this.direction == 'down' && this.playerPosY < this.vertEdge-1){
@@ -395,7 +395,7 @@ class maze_Generation{
                 this.playerPosY = this.playerPosY+2;    
 
             }else{
-                alert("you can't move that way");
+                //alert("You can't move that direction (Click Enter)");
                 return false;
             }
         }else if(this.direction == 'left' && this.playerPosX > 1){
@@ -415,7 +415,7 @@ class maze_Generation{
                 this.maze[this.playerPosX-1][this.playerPosY] = ["path"];
                 this.playerPosX = this.playerPosX-2;    
             }else{
-                alert("you can't move that way");
+                //alert("You can't move that direction (Click Enter)");
                 return false;
             }
         }else if(this.direction == 'right' && this.playerPosX < this.horzEdge-1){
@@ -436,11 +436,10 @@ class maze_Generation{
                 this.playerPosX = this.playerPosX+2;    
                 
             }else{
-                alert("you can't move that way");
                 return false;
             }
         }else{
-            alert("you can't move that way");
+            //alert("You can't move that direction (Click Enter)");
             return false;
         }
 
