@@ -80,7 +80,9 @@ class maze_Algorithm {
                 }
             //for when movement isn't possible
             }else{
-                this.canExit(numRows, numCels);
+                if(this.currR == 1 || this.currR == this.horzEdge-1){
+                    this.canExit(numRows, numCels);
+                }
                 //1 went Left, 2 went Right, 3 went Up, 4 went down.
                 //reverses course till a new route is possible or it kills the loop
                 this.moveIdx = this.movesArray.length-1;
@@ -194,29 +196,48 @@ class maze_Algorithm {
     }
 
     canExit(x, y){
-        this.xMax = (x - 1)/2;
-        this.yMax = (y - 1)/2;
-        // console.log("can exit check")
-        // console.log("array length: "+ this.movesArray.length)
-        // console.log("possible moves: "+ this.xMax * this.yMax)
-        if(!(this.endSet) && ((this.xMax * this.yMax)/2.5 <= this.movesArray.length)){
-            if(this.currR == this.horzEdge-1){
-                this.modArr[this.currR+1][this.currC] = ["exit"];
-                this.endSet = true;
+        if(!(this.endSet)){
+            this.xMax = (x - 1)/2;
+            this.yMax = (y - 1)/2;
 
-                this.extXPos = this.currR+1;
-                this.extYPos = this.currC;
-
-
-            }else if(this.currR == 1){
-                this.modArr[this.currR-1][this.currC] = ["exit"];
-                this.endSet = true;
-
-                this.extXPos = this.currR-1;
-                this.extYPos = this.currC;
-
+            this.ratio = 0.4;
+            if((this.xMax + this.yMax)/2 >= 500){
+                this.ratio = 0.0001;
+            }else if((this.xMax + this.yMax)/2 >= 400){
+                this.ratio = 0.05;
+            }else if((this.xMax + this.yMax)/2 >= 300){
+                this.ratio = 0.1;
+            }else if((this.xMax + this.yMax)/2 >= 200){
+                this.ratio = 0.15;
+            }else if((this.xMax + this.yMax)/2 >= 100){
+                this.ratio = 0.3;
+            }else{
+                this.ratio = 0.4;
             }
-            return true
+            
+            if(((this.movesArray.length) - ((this.xMax * this.yMax)*this.ratio)) > 0){
+                if(this.currR == this.horzEdge-1){
+                    this.modArr[this.currR+1][this.currC] = ["exit"];
+                    this.endSet = true;
+                    console.log("exited x: "+this.currR+" y: "+this.currR+" %: "
+                                + this.movesArray.length/(this.xMax * this.yMax));
+
+                    this.extXPos = this.currR+1;
+                    this.extYPos = this.currC;
+
+
+                }else if(this.currR == 1){
+                    this.modArr[this.currR-1][this.currC] = ["exit"];
+                    this.endSet = true;
+                    console.log("exited x: "+this.currR+" y: "+this.currR+" %: "
+                                + this.movesArray.length/(this.xMax * this.yMax));
+
+                    this.extXPos = this.currR-1;
+                    this.extYPos = this.currC;
+
+                }
+                return true;
+            }
         }else{
             return false;
         }
@@ -316,7 +337,8 @@ class maze_Generation{
                 if(cell) {
                     //class assignment base on answer on stack overflow
                     //source: https://stackoverflow.com/questions/1115310/how-can-i-add-a-class-to-a-dom-element-in-javascript
-                    cellDiv.className = cell.toString();
+                    cellDiv.className = "mazeCell " + cell.toString();
+                    cellDiv.name = "mazeCell";
                 }
                 rowDiv.appendChild(cellDiv);
             });
@@ -355,8 +377,9 @@ class maze_Generation{
         the directional input
         */
         if(this.direction == 'up' && this.playerPosY > 1){
-            if(this.maze[this.playerPosX+1][this.playerPosY-2] == 'exit' 
-                || this.maze[this.playerPosX-1][this.playerPosY-2] == 'exit'){
+            if(this.maze[this.playerPosX][this.playerPosY-1] == 'path' 
+                && (this.maze[this.playerPosX+1][this.playerPosY-2] == 'exit' 
+                || this.maze[this.playerPosX-1][this.playerPosY-2] == 'exit')){
                 this.maze[this.playerPosX][this.playerPosY-1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY-2] = ["walked"];
                 this.playerPosY = this.playerPosY-2;
@@ -377,8 +400,9 @@ class maze_Generation{
                 return false;
             }
         }else if(this.direction == 'down' && this.playerPosY < this.vertEdge-1){
-            if(this.maze[this.playerPosX+1][this.playerPosY+2] == 'exit' 
-                || this.maze[this.playerPosX-1][this.playerPosY+2] == 'exit'){
+            if(this.maze[this.playerPosX][this.playerPosY+1] == 'path' 
+                && (this.maze[this.playerPosX+1][this.playerPosY+2] == 'exit' 
+                || this.maze[this.playerPosX-1][this.playerPosY+2] == 'exit')){
                 this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
                 this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
                 this.playerPosY = this.playerPosY+2;
@@ -399,7 +423,8 @@ class maze_Generation{
                 return false;
             }
         }else if(this.direction == 'left' && this.playerPosX > 1){
-            if(this.maze[this.playerPosX-3][this.playerPosY] == 'exit'){
+            if(this.maze[this.playerPosX-1][this.playerPosY] == 'path' 
+                && this.maze[this.playerPosX-3][this.playerPosY] == 'exit'){
                 this.maze[this.playerPosX-1][this.playerPosY] = ["walked"];
                 this.maze[this.playerPosX-2][this.playerPosY] = ["walked"];
                 this.playerPosX = this.playerPosX-2;
@@ -419,9 +444,10 @@ class maze_Generation{
                 return false;
             }
         }else if(this.direction == 'right' && this.playerPosX < this.horzEdge-1){
-            if(this.maze[this.playerPosX][this.playerPosY+3] == 'exit'){
-                this.maze[this.playerPosX][this.playerPosY+1] = ["walked"];
-                this.maze[this.playerPosX][this.playerPosY+2] = ["walked"];
+            if(this.maze[this.playerPosX+1][this.playerPosY] == 'path' 
+                && this.maze[this.playerPosX+3][this.playerPosY] == 'exit'){
+                this.maze[this.playerPosX+1][this.playerPosY] = ["walked"];
+                this.maze[this.playerPosX+2][this.playerPosY] = ["walked"];
                 this.playerPosX = this.playerPosX+2;
                 this.cleared = true;
 

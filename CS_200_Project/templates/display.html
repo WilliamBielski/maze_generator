@@ -13,6 +13,8 @@
         <script>
 
             let newMaze = new maze_Generation(10,10);
+            let screenSize = screen.width;
+            let cellSize = 15;
             let cols = 10;
             let rows = 10;
             let missMoves = 0;
@@ -27,20 +29,25 @@
 
                 makeMaze('bank',rows,cols);
 
-                document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*15)+"px";
+                if((((cols*2)+1)*15) >= (screenSize-160)){
+                    cellSize = (screenSize-160)/((cols*2)+1);
+                    //how to change all instances of a class
+                    //source: https://stackoverflow.com/questions/5753680/change-css-of-class-in-javascript
+                    let elements = document.getElementsByClassName('mazeCell');
+                    for(var i in elements){
+                        if (elements.hasOwnProperty(i)) {
+                            elements[i].style.width = cellSize + "px";
+                            elements[i].style.height = cellSize + "px";
+                        }
+                    }
+                }
+
+                document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*cellSize)+"px";
                 console.log("ext xPos = " + newMaze.getExtXPos()+ " ext yPos = "+ newMaze.getExtYPos());
                 if(newMaze.getExtXPos() == 0){
-                    //alert("left")
-                    document.getElementById("end-span-right").style.visibility="hidden";
-                    document.getElementById("end-span-buffer").style.display="block";
-                    document.getElementById("end-span-left").style.display="block";
-                    document.getElementById("end-span-left").style.marginTop= (newMaze.getExtYPos()*15)+"px";
+                    endOnLeft();
                 }else{
-                    //alert("right")
-                    document.getElementById("end-span-left").style.display="none";
-                    document.getElementById("end-span-buffer").style.display="none";
-                    document.getElementById("end-span-right").style.visibility="visible";
-                    document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*15)+"px";
+                    endOnRight();
                 }
                 
                 document.getElementById("starter-text-div").style.display="none";
@@ -49,10 +56,56 @@
             }
 
             //generates maze object and displays it
-            const makeMaze=function(id,width,height){
+            function makeMaze(id,width,height){
                 newMaze = new maze_Generation(width,height);
-                newMaze.displayMaze(id);
+                if(newMaze.getExtYPos() == 0){
+                    //just to garuntee success
+                    makeMaze(id,width,height);
+                }else{
+                    newMaze.displayMaze(id);
+                }
             };
+
+            function endOnLeft(){
+                document.getElementById("end-span-right").style.visibility="hidden";
+                document.getElementById("end-span-buffer").style.display="block";
+                document.getElementById("end-span-left").style.display="block";
+                document.getElementById("end-span-left").style.marginTop= (newMaze.getExtYPos()*cellSize)+"px";
+                //start span adjustments
+                if(cellSize > 9){
+                    document.getElementById("end-span-left").style.fontSize=cellSize + "px";
+                    document.getElementById("end-span-left").style.width=(31*(cellSize/15)) + "px";
+                    //start stuff
+                    document.getElementById("start-span").style.fontSize=cellSize + "px";
+                    document.getElementById("start-span").style.width=(31*(cellSize/15)) + "px";
+                }else{
+                    document.getElementById("end-span-left").style.fontSize="10px";
+                    document.getElementById("end-span-left").style.width=(31*(10/15)) + "px";
+                    //start stuff
+                    document.getElementById("start-span").style.fontSize="10px";
+                    document.getElementById("start-span").style.width=(31*(10/15)) + "px";
+                }
+            };
+
+            function endOnRight(){
+                document.getElementById("end-span-left").style.display="none";
+                document.getElementById("end-span-buffer").style.display="none";
+                document.getElementById("end-span-right").style.visibility="visible";
+                document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*cellSize)+"px";
+                //start span adjustments
+                if(cellSize > 9){
+                    document.getElementById("end-span-right").style.fontSize=cellSize + "px";
+                    //start stuff
+                    document.getElementById("start-span").style.fontSize=cellSize + "px";
+                    document.getElementById("start-span").style.width=(31*(cellSize/15)) + "px";
+                }else{
+                    document.getElementById("end-span-right").style.fontSize="10px";
+                    //start stuff
+                    document.getElementById("start-span").style.fontSize="10px";
+                    document.getElementById("start-span").style.width=(31*(10/15)) + "px";
+                }
+                
+            }
 
             //general function to move the "player in the direction passed"
             function makeMove(id, direction){
@@ -66,8 +119,15 @@
                 }
                 newMaze.displayMaze(id);
                 console.log("make-move runs")
-                if(newMaze.getCleared()){
+                if(newMaze.getCleared() || (cols == 1 && rows == 1)){
                     alert("Maze Cleared!!!");
+                    document.getElementById("playButton").style.display="none";
+                    document.getElementById("dir-Div").style.display="none";
+                    document.getElementById("starter-text-div").style.display="block";
+                    rows++;
+                    cols++;
+                    document.getElementById("longitude").value = rows;
+                    document.getElementById("latitude").value = cols;
                 }
             }
 
@@ -102,10 +162,6 @@
             };
         </script>
 
-        <div class="starter-text-div" id="starter-text-div">
-            <span class="starter-text">Click 'Make Maze' to begin!</span>
-        </div>
-
         <!--the maze goes in the div below-->
         <div class="maze-div" id="maze-div" style="display: none;">
                 <span class="start-end-span" id="start-span">
@@ -127,7 +183,9 @@
             
         </div>
 
-        
+        <div class="starter-text-div" id="starter-text-div">
+            <span class="starter-text">Click 'Make Maze' to begin!</span>
+        </div>
 
         <div class="input-div" id="input-div">
             <label>Width: </label>
