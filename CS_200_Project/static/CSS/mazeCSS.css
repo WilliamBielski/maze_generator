@@ -65,6 +65,8 @@
 .warning-text{
     font-size: 16px;
     color: brown;
+    display: flex;
+    justify-content: center;
 }
 
 .start-end-span{

@@ -201,7 +201,11 @@ class maze_Algorithm {
             this.yMax = (y - 1)/2;
 
             this.ratio = 0.4;
-            if((this.xMax + this.yMax)/2 >= 500){
+            if(((this.xMax + this.yMax)/2 >= 800)){
+                this.ratio = 0.000001
+            }else if((this.xMax + this.yMax)/2 >= 600){
+                this.ratio = 0.00001;
+            }else if((this.xMax + this.yMax)/2 >= 500){
                 this.ratio = 0.0001;
             }else if((this.xMax + this.yMax)/2 >= 400){
                 this.ratio = 0.05;
@@ -342,7 +346,6 @@ class maze_Generation{
                     //class assignment base on answer on stack overflow
                     //source: https://stackoverflow.com/questions/1115310/how-can-i-add-a-class-to-a-dom-element-in-javascript
                     cellDiv.className = "mazeCell " + cell.toString();
-                    cellDiv.name = "mazeCell";
                     cellDiv.style.width=cellSize+"px";
                     cellDiv.style.height=cellSize+"px";
                 }
@@ -402,7 +405,6 @@ class maze_Generation{
                 this.playerPosY = this.playerPosY-2;
 
             }else{
-                //alert("You can't move that direction (Click Enter)");
                 return false;
             }
         }else if(this.direction == 'down' && this.playerPosY < this.vertEdge-1){

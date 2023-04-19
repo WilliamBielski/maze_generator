@@ -37,6 +37,8 @@
                     if((screen.width-100)/(cols*2+1) < 15){
                         cellSize = (screen.width-100)/(cols*2+1);
                     }
+                }else{
+                    cellSize = 15;
                 }
 
                 document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*cellSize)+"px";
@@ -90,6 +92,7 @@
                 document.getElementById("end-span-left").style.display="none";
                 document.getElementById("end-span-right").style.display="block";
                 document.getElementById("end-span-right").style.visibility="visible";
+                document.getElementById("end-span-buffer").style.display="none";
                 document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*cellSize)+"px";
                 //start span adjustments
                 if(cellSize > 9){
@@ -221,7 +224,11 @@
         </div>
 
         <div class="starter-text-div" id="warning-div">
-            <span class="warning-text">Warning: Width and Height should not exceed 3 digits</span>
+            <span class="warning-text">Warning: Width and Height exceeding 3 digits is not recomended</span>
+            <span class="warning-text">Anything close to 500 by 500 is practically unplayable</span>
+            <label id="suggestionLabel">
+                (Notice: Larger dimensions will result in increaced delay)
+            </label>
         </div>
     </div>
 </body>
