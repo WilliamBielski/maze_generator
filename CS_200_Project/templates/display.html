@@ -14,9 +14,9 @@
 
             let newMaze = new maze_Generation(10,10);
             let screenSize = screen.width;
-            let cellSize = 15;
             let cols = 10;
             let rows = 10;
+            let cellSize = 15;
             let missMoves = 0;
         
             //takes the values of the height/width inputs and creates a maze based on them
@@ -29,21 +29,18 @@
 
                 makeMaze('bank',rows,cols);
 
-                if((((cols*2)+1)*15) >= (screenSize-160)){
-                    cellSize = (screenSize-160)/((cols*2)+1);
-                    //how to change all instances of a class
-                    //source: https://stackoverflow.com/questions/5753680/change-css-of-class-in-javascript
-                    let elements = document.getElementsByClassName('mazeCell');
-                    for(var i in elements){
-                        if (elements.hasOwnProperty(i)) {
-                            elements[i].style.width = cellSize + "px";
-                            elements[i].style.height = cellSize + "px";
-                        }
+                if((screen.width-160)/(cols*2+1) < 15){
+                    document.getElementById("end-span-buffer").style.display="none";
+                    if(newMaze.getExtXPos() == 0){
+                        document.getElementById("end-span-right").style.display="none";
+                    }
+                    if((screen.width-100)/(cols*2+1) < 15){
+                        cellSize = (screen.width-100)/(cols*2+1);
                     }
                 }
 
                 document.getElementById("start-span").style.marginTop= (newMaze.getStartPos()*cellSize)+"px";
-                console.log("ext xPos = " + newMaze.getExtXPos()+ " ext yPos = "+ newMaze.getExtYPos());
+                //console.log("ext xPos = " + newMaze.getExtXPos()+ " ext yPos = "+ newMaze.getExtYPos());
                 if(newMaze.getExtXPos() == 0){
                     endOnLeft();
                 }else{
@@ -68,7 +65,9 @@
 
             function endOnLeft(){
                 document.getElementById("end-span-right").style.visibility="hidden";
+                if((screen.width-160)/(cols*2+1) > 15){
                 document.getElementById("end-span-buffer").style.display="block";
+                }
                 document.getElementById("end-span-left").style.display="block";
                 document.getElementById("end-span-left").style.marginTop= (newMaze.getExtYPos()*cellSize)+"px";
                 //start span adjustments
@@ -89,7 +88,7 @@
 
             function endOnRight(){
                 document.getElementById("end-span-left").style.display="none";
-                document.getElementById("end-span-buffer").style.display="none";
+                document.getElementById("end-span-right").style.display="block";
                 document.getElementById("end-span-right").style.visibility="visible";
                 document.getElementById("end-span-right").style.marginTop= (newMaze.getExtYPos()*cellSize)+"px";
                 //start span adjustments
@@ -118,7 +117,6 @@
                     alert("You can't move that direction (Click Enter)");
                 }
                 newMaze.displayMaze(id);
-                console.log("make-move runs")
                 if(newMaze.getCleared() || (cols == 1 && rows == 1)){
                     alert("Maze Cleared!!!");
                     document.getElementById("playButton").style.display="none";
@@ -146,17 +144,21 @@
                 if(document.getElementById("dir-Div").style.display == "block"){
                     switch (e.keyCode) {
                         case 37:
-                            makeMove('bank','left');
-                            break;
+                            case 65:
+                                makeMove('bank','left');
+                                break;
                         case 38:
-                            makeMove('bank','up');
-                            break;
+                            case 87:
+                                makeMove('bank','up');
+                                break;
                         case 39:
-                            makeMove('bank','right');
-                            break;
+                            case 68:
+                                makeMove('bank','right');
+                                break;
                         case 40:
-                            makeMove('bank','down');
-                            break;
+                            case 83:
+                                makeMove('bank','down');
+                                break;
                     }
                 }
             };
@@ -189,9 +191,9 @@
 
         <div class="input-div" id="input-div">
             <label>Width: </label>
-            <input type="number" id="latitude" name="latitude" min="2" max="30" value="10">
+            <input type="number" id="latitude" name="latitude" min="2" max="500" value="10">
             <label>Height: </label>
-            <input type="number" id="longitude" name="longitude" min="2" max="30" value="10">
+            <input type="number" id="longitude" name="longitude" min="2" max="500" value="10">
             <button class="make-maze-but" onclick="assembleMaze();">Make Maze!</button>
         </div>
 
@@ -201,15 +203,25 @@
         </button>
 
         <div class="dir-button-div" id="dir-Div">
-            <label id="directionLabel">
-                Use the arrow keys or the buttons below to navigate the maze!
-            </label>
+            <div class="dir-text">
+                <label id="directionLabel">
+                    Use the arrow keys, WASD or the buttons below to navigate the maze!
+                </label>
+                <label id="suggestionLabel">
+                    (Notice: Larger dimensions will result in worse responsiveness)
+                </label>
+            </div>
+                
             <div class="button-div">
                 <button id="upButton" class="dir-button" onclick="makeMove('bank','up');">Move Up!</button>
                 <button id="downButton" class="dir-button" onclick="makeMove('bank','down');">Move Down!</button>
                 <button id="leftButton" class="dir-button" onclick="makeMove('bank','left');">Move Left!</button>
                 <button id="rightButton" class="dir-button" onclick="makeMove('bank','right');">Move Right!</button>
             </div>
+        </div>
+
+        <div class="starter-text-div" id="warning-div">
+            <span class="warning-text">Warning: Width and Height should not exceed 3 digits</span>
         </div>
     </div>
 </body>

@@ -49,8 +49,6 @@
 .maze-bank{
     display: flex;
     justify-content: center;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .starter-text-div{
@@ -62,6 +60,11 @@
 .starter-text{
     font-weight: bold;
     font-size: 32px;
+}
+
+.warning-text{
+    font-size: 16px;
+    color: brown;
 }
 
 .start-end-span{
@@ -92,9 +95,21 @@
     margin-right: auto;
 }
 
+.dir-text{
+    display: flex;
+    flex-flow: column;
+}
+
 #directionLabel{
     font-size: 22px;
     font-weight: bold;
+}
+
+#suggestionLabel{
+    font-size: 12px;
+    color: rgb(55, 55, 55);
+    display: flex;
+    justify-content: center;
 }
 
 .button-div{

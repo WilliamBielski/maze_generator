@@ -311,6 +311,10 @@ class maze_Generation{
 
     displayMaze(name) {
         //didn't think I would actually use parent child hookups from CS 120 like this but here we are.
+        let cellSize = 15;
+        if((screen.width-100)/(document.getElementById('latitude').value*2+1) < 15){
+            cellSize = (screen.width-100)/(document.getElementById('latitude').value*2+1);
+        }
         this.bankDiv = document.getElementById(name);
 
         if(!this.bankDiv) {
@@ -339,6 +343,8 @@ class maze_Generation{
                     //source: https://stackoverflow.com/questions/1115310/how-can-i-add-a-class-to-a-dom-element-in-javascript
                     cellDiv.className = "mazeCell " + cell.toString();
                     cellDiv.name = "mazeCell";
+                    cellDiv.style.width=cellSize+"px";
+                    cellDiv.style.height=cellSize+"px";
                 }
                 rowDiv.appendChild(cellDiv);
             });
@@ -491,12 +497,6 @@ class maze_Generation{
     }
 }
 
-//this is just to see if the HTML is seeing the JS
-function trigger(){
-    alert('works');
-
-    return true;
-}
 //random number gen (inspired by w3schools example)
 //source: https://www.w3schools.com/js/js_random.asp
 function rand(min, max) {
