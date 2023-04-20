@@ -201,25 +201,26 @@ class maze_Algorithm {
             this.yMax = (y - 1)/2;
 
             this.ratio = 0.4;
-            if(((this.xMax + this.yMax)/2 >= 800)){
-                this.ratio = 0.000001
-            }else if((this.xMax + this.yMax)/2 >= 600){
-                this.ratio = 0.00001;
-            }else if((this.xMax + this.yMax)/2 >= 500){
+            this.dimensionAverage = (this.xMax + this.yMax)/2;
+
+            /*the generated maze tends to have a duration slightly above or at 
+            the set ratio or it imeadiatly loops in on itself at the higher dimensions.*/
+            if(this.dimensionAverage == 500){
                 this.ratio = 0.0001;
-            }else if((this.xMax + this.yMax)/2 >= 400){
+            }else if(this.dimensionAverage >= 400){
                 this.ratio = 0.05;
-            }else if((this.xMax + this.yMax)/2 >= 300){
+            }else if(this.dimensionAverage >= 300){
                 this.ratio = 0.1;
-            }else if((this.xMax + this.yMax)/2 >= 200){
+            }else if(this.dimensionAverage >= 200){
                 this.ratio = 0.15;
-            }else if((this.xMax + this.yMax)/2 >= 100){
+            }else if(this.dimensionAverage >= 100){
                 this.ratio = 0.3;
             }else{
                 this.ratio = 0.4;
             }
             
-            if(((this.movesArray.length) - ((this.xMax * this.yMax)*this.ratio)) > 0){
+            if(((this.movesArray.length) - ((this.xMax * this.yMax)*this.ratio)) > 0 
+                && this.dimensionAverage <= 500){
                 if(this.currR == this.horzEdge-1){
                     this.modArr[this.currR+1][this.currC] = ["exit"];
                     this.endSet = true;
@@ -241,6 +242,26 @@ class maze_Algorithm {
 
                 }
                 return true;
+            }else if((this.movesArray.length > this.dimensionAverage) 
+                        && this.dimensionAverage > 500){
+                if(this.currR == this.horzEdge-1){
+                    this.modArr[this.currR+1][this.currC] = ["exit"];
+                    this.endSet = true;
+                    console.log("exited x: "+this.currR+" y: "+this.currR+" %: "
+                                + this.movesArray.length/(this.xMax * this.yMax));
+
+                    this.extXPos = this.currR+1;
+                    this.extYPos = this.currC;
+
+                }else if(this.currR == 1){
+                    this.modArr[this.currR-1][this.currC] = ["exit"];
+                    this.endSet = true;
+                    console.log("exited x: "+this.currR+" y: "+this.currR+" %: "
+                                + this.movesArray.length/(this.xMax * this.yMax));
+
+                    this.extXPos = this.currR-1;
+                    this.extYPos = this.currC;
+                }
             }
         }else{
             return false;
@@ -281,7 +302,7 @@ class maze_Generation{
 
         //boolean to reference to ensure maze has yet to be cleared
         this.cleared = false;
-
+        
         //for each loops based on w3 schools example
         //source: https://www.w3schools.com/jsref/jsref_foreach.asp
         this.maze.forEach((row, r) => {
@@ -314,15 +335,15 @@ class maze_Generation{
     }
 
     displayMaze(name) {
-        //didn't think I would actually use parent child hookups from CS 120 like this but here we are.
         let cellSize = 15;
-        if((screen.width-100)/(document.getElementById('latitude').value*2+1) < 15){
-            cellSize = (screen.width-100)/(document.getElementById('latitude').value*2+1);
+        if((screen.width-100)/(document.getElementById("latitude").value*2+1) < cellSize){
+            cellSize = (screen.width-100)/(document.getElementById("latitude").value*2+1);
         }
+
         this.bankDiv = document.getElementById(name);
 
         if(!this.bankDiv) {
-            document.write("name dosen't or you deleted the div");
+            document.write("name dosen't match or you deleted the div");
             return false;
         }
 

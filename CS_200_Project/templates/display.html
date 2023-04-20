@@ -2,6 +2,7 @@
 <html>
 
 <link rel="stylesheet" type="text/css" href="../static/CSS/mazeCSS.css">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
 <script type="text/javascript"
         src="../static/JS/maze_Generation.js"
         type="module">
@@ -11,14 +12,14 @@
     <div class="bodyDiv">
         <!--maze div will go here-->
         <script>
-
-            let newMaze = new maze_Generation(10,10);
+            
             let screenSize = screen.width;
             let cols = 10;
             let rows = 10;
             let cellSize = 15;
+            let newMaze = new maze_Generation(cols,rows);
             let missMoves = 0;
-        
+            
             //takes the values of the height/width inputs and creates a maze based on them
             //additionally this makes sure the "playButton" is now visible to the players
             function assembleMaze(){
@@ -227,7 +228,7 @@
             <span class="warning-text">Warning: Width and Height exceeding 3 digits is not recomended</span>
             <span class="warning-text">Anything close to 500 by 500 is practically unplayable</span>
             <label id="suggestionLabel">
-                (Notice: Larger dimensions will result in increaced delay)
+                (Notice: Larger dimensions will result in increased delay)
             </label>
         </div>
     </div>
