@@ -302,6 +302,12 @@ class maze_Generation{
 
         //boolean to reference to ensure maze has yet to be cleared
         this.cleared = false;
+
+        //calculated the size of cell needed to fit the user's screen
+        this.cellSize = 15;
+        if((screen.width-100)/(this.width*2+1) < this.cellSize){
+            this.cellSize = (screen.width-100)/(this.width*2+1);
+        }
         
         //for each loops based on w3 schools example
         //source: https://www.w3schools.com/jsref/jsref_foreach.asp
@@ -334,16 +340,13 @@ class maze_Generation{
         return new Array(this.height).fill().map(() => new Array(this.width).fill(value));
     }
 
-    displayMaze(name) {
-        let cellSize = 15;
-        if((screen.width-100)/(document.getElementById("latitude").value*2+1) < cellSize){
-            cellSize = (screen.width-100)/(document.getElementById("latitude").value*2+1);
-        }
+    displayMaze(id) {
+        console.log(this.cellSize);
 
-        this.bankDiv = document.getElementById(name);
+        this.bankDiv = document.getElementById(id);
 
         if(!this.bankDiv) {
-            document.write("name dosen't match or you deleted the div");
+            console.log("name dosen't match or you deleted the div");
             return false;
         }
 
@@ -367,8 +370,8 @@ class maze_Generation{
                     //class assignment base on answer on stack overflow
                     //source: https://stackoverflow.com/questions/1115310/how-can-i-add-a-class-to-a-dom-element-in-javascript
                     cellDiv.className = "mazeCell " + cell.toString();
-                    cellDiv.style.width=cellSize+"px";
-                    cellDiv.style.height=cellSize+"px";
+                    cellDiv.style.width=this.cellSize+"px";
+                    cellDiv.style.height=this.cellSize+"px";
                 }
                 rowDiv.appendChild(cellDiv);
             });
