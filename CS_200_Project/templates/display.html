@@ -13,6 +13,9 @@
         <!--maze div will go here-->
         <script>
             
+            // This code is declaring and initializing variables and objects for generating a maze. It sets
+            // the screen size, number of columns and rows for the maze, cell size, and creates a new maze
+            // generation object. It also initializes a variable for missed moves.
             let screenSize = screen.width;
             let cols = 10;
             let rows = 10;
@@ -20,8 +23,11 @@
             let newMaze = new maze_Generation(cols,rows);
             let missMoves = 0;
             
-            //takes the values of the height/width inputs and creates a maze based on them
-            //additionally this makes sure the "playButton" is now visible to the players
+            // The below code is a JavaScript function called `assembleMaze()`. It is triggered when a
+            // user inputs values for the number of columns and rows in a maze and clicks a button to
+            // generate the maze. The function retrieves the values of the columns and rows from the
+            // HTML input elements, displays the maze container element, and calls another function
+            // called `makeMaze()` to generate the maze.
             function assembleMaze(){
                 cols = document.getElementById('latitude').value;
                 rows = document.getElementById('longitude').value;
@@ -55,17 +61,24 @@
                 document.getElementById("dir-Div").style.display="none";
             }
 
-            //generates maze object and displays it
+            // The below code defines a function called `makeMaze` that takes in three parameters:
+            // `id`, `width`, and `height`. It creates a new maze using the `maze_Generation`
+            // constructor and checks if the maze has a valid exit position. If the exit position is
+            // not valid, the function recursively calls itself until a valid maze is generated. Once a
+            // valid maze is generated, it is displayed on the HTML element with the specified `id`.
             function makeMaze(id,width,height){
                 newMaze = new maze_Generation(width,height);
                 if(newMaze.getExtYPos() == 0){
-                    //just to garuntee success
                     makeMaze(id,width,height);
                 }else{
                     newMaze.displayMaze(id);
                 }
             };
 
+            // The below code is a JavaScript function that adjusts the display of elements on a
+            // webpage related to the end point of a maze. It hides the right end point span, displays
+            // the left end point span, adjusts its position and font size based on the size of the
+            // maze cells, and adjusts the font size and width of the start point span.
             function endOnLeft(){
                 document.getElementById("end-span-right").style.visibility="hidden";
                 if((screen.width-160)/(cols*2+1) > 15){
@@ -89,6 +102,12 @@
                 }
             };
 
+            // The below code is a JavaScript function that is used to adjust the display and styling
+            // of certain HTML elements on a webpage. Specifically, it hides one span element
+            // ("end-span-left") and shows another ("end-span-right"), adjusts the margin-top of the
+            // "end-span-right" element based on the value of a variable ("cellSize"), and adjusts the
+            // font size and width of two other span elements ("end-span-right" and "start-span") based
+            // on the value of "cellSize".
             function endOnRight(){
                 document.getElementById("end-span-left").style.display="none";
                 document.getElementById("end-span-right").style.display="block";
@@ -110,7 +129,13 @@
                 
             }
 
-            //general function to move the "player in the direction passed"
+            // This function is responsible for moving the player in the maze based on the direction
+            // passed as an argument. It first checks if the move is valid using the `movePlayer`
+            // method of the `newMaze` object. If the move is not valid, it increments the `missMoves`
+            // counter. If `missMoves` reaches 3, it alerts the player that they cannot move in that
+            // direction. It then displays the updated maze using the `displayMaze` method of the
+            // `newMaze` object. If the maze is cleared or the dimensions of the maze are reduced to
+            // 1x1, it alerts the player that the maze is cleared and updates the display accordingly.
             function makeMove(id, direction){
                 if(!newMaze.movePlayer(direction)){
                     missMoves += 1;
@@ -133,7 +158,13 @@
                 }
             }
 
-            //essentially hides the "Play" button and makes the movement instructions/buttons visible
+
+            // This function is responsible for allowing the player to start playing the maze. It hides
+            // the "playButton" and displays the "dir-Div" which contains the directional buttons for
+            // the player to move in the maze. It also initializes the player's position in the maze
+            // using the `initalizePlayer` method of the `newMaze` object and displays the updated maze
+            // using the `displayMaze` method of the `newMaze` object. The `id` parameter is used to
+            // pass the id of the maze div to the `displayMaze` method.
             function allowPlay(id){
                 document.getElementById("playButton").style.display="none";
                 document.getElementById("dir-Div").style.display="block";
@@ -143,6 +174,12 @@
 
             //arrow on press method from GeeksForGeeks
             //sourse: https://www.geeksforgeeks.org/javascript-detecting-the-pressed-arrow-key/
+            // The above code is adding an event listener to the document that listens for keydown
+            // events. If the element with the ID "dir-Div" has a display property of "block", it will
+            // execute a switch statement that calls the function "makeMove" with different arguments
+            // depending on which arrow key or WASD key was pressed. This code is likely part of a
+            // larger program that allows the user to control some sort of game or interactive element
+            // using arrow keys or WASD keys.
             document.onkeydown = function(e) {
                 //if statement to ensure arrow-key movement does not proceed play activation
                 if(document.getElementById("dir-Div").style.display == "block"){
