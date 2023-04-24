@@ -243,7 +243,7 @@ class maze_Algorithm {
             this.ratio = 0.4;
             this.dimensionAverage = (this.xMax + this.yMax)/2;
 
-            /*the generated maze tends to have a duration slightly above or at 
+            /*the generated maze tends to have a duration barely above or at 
             the set ratio or it imeadiatly loops in on itself at the higher dimensions.*/
             if(this.dimensionAverage == 500){
                 this.ratio = 0.0001;
@@ -369,8 +369,8 @@ class maze_Generation{
 
         //calculated the size of cell needed to fit the user's screen
         this.cellSize = 15;
-        if((screen.width-100)/(this.width*2+1) < this.cellSize){
-            this.cellSize = (screen.width-100)/(this.width*2+1);
+        if((screen.width-100)/(this.height*2+1) < this.cellSize){
+            this.cellSize = (screen.width-100)/(this.height*2+1);
         }
         
         //for each loops based on w3 schools example
